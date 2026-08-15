@@ -1,0 +1,1007 @@
+{
+  "info": {
+    "_postman_id": "423dfd6a-0abc-41ff-ac07-67b4a3091ad8",
+    "name": "PMP-MOCK-TEST-NODEJS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32848259"
+  },
+  "item": [
+    {
+      "name": "Quiz",
+      "item": [
+        {
+          "name": "View Quiz",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var template = `\r",
+                  "<canvas id=\"myChart\" height=\"75\"></canvas>\r",
+                  "\r",
+                  "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script> \r",
+                  "\r",
+                  "<script>\r",
+                  "    var ctx = document.getElementById(\"myChart\");\r",
+                  "\r",
+                  "    var myChart = new Chart(ctx, {\r",
+                  "        type: \"bar\",\r",
+                  "        data: {\r",
+                  "            labels: [],\r",
+                  "            datasets: [{\r",
+                  "                data: [],\r",
+                  "                \r",
+                  "                // Change these colours to customize the chart\r",
+                  "                backgroundColor: [\"#003f5c\", \"#58508d\", \"#bc5090\", \"#ff6361\", \"#ffa600\"],\r",
+                  "            }]\r",
+                  "        },\r",
+                  "        options: {\r",
+                  "            legend: { display: false },\r",
+                  "            title: {\r",
+                  "                display: true,\r",
+                  "                text: 'Marks per Question'\r",
+                  "            },\r",
+                  "            scales: {\r",
+                  "                xAxes: [{\r",
+                  "                    display: true,\r",
+                  "                    scaleLabel: {\r",
+                  "                        display: true,\r",
+                  "                        labelString: 'Questions'\r",
+                  "                    }\r",
+                  "                }],\r",
+                  "                yAxes: [{\r",
+                  "                    display: true,\r",
+                  "                    scaleLabel: {\r",
+                  "                        display: true,\r",
+                  "                        labelString: 'Marks'\r",
+                  "                    }\r",
+                  "                }]\r",
+                  "            }\r",
+                  "        }\r",
+                  "\r",
+                  "    });\r",
+                  "\r",
+                  "    // Access the data passed to pm.visualizer.set() from the JavaScript\r",
+                  "    // code of the Visualizer template\r",
+                  "    pm.getData(function (err, value) {\r",
+                  "        var data = value.response.questionDetailsPaginated.docs;\r",
+                  "        var labels = data.map(question => \"Question \" + question.s_no);\r",
+                  "        var marks = data.map(question => question.marks_per_question);\r",
+                  "        myChart.data.labels = labels;\r",
+                  "        myChart.data.datasets[0].data = marks;\r",
+                  "        myChart.update();\r",
+                  "    });\r",
+                  "\r",
+                  "</script>`;\r",
+                  "\r",
+                  "function constructVisualizerPayload() {\r",
+                  "    var res = pm.response.json();\r",
+                  "    \r",
+                  "    var visualizerData = {\r",
+                  "        questionDetailsPaginated: res.questionDetailsPaginated\r",
+                  "    };\r",
+                  "\r",
+                  "    return {response: visualizerData};\r",
+                  "}\r",
+                  "\r",
+                  "pm.visualizer.set(template, constructVisualizerPayload());\r",
+                  "pm.test(\"Response status code is 200\", function () {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/managers_question?page=3",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "managers_question"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Quiz Result",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/result/66d1684be598855d5ecadce3",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "result",
+                "66d1684be598855d5ecadce3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Quiz List Without Login",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/quiz-list-without-login?page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "quiz-list-without-login"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Quiz List",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/quiz-list?page=1&limit=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "quiz-list"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contact Us Quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"question\": \"Here is the question!!\",\r\n    \"options\": [\r\n        \"A\",\r\n        \"B\",\r\n        \"C\",\r\n        \"D\"\r\n    ],\r\n    \"name\": \"test\",\r\n    \"email\": \"test@yopmail.com\",\r\n    \"description\" : \"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/question-contact-us",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "question-contact-us"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Quiz Progress",
+      "item": [
+        {
+          "name": "Save Progress",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": {\r\n    \"at_question_id\": \"66bb387b24f31074ec3dc4d4\",\r\n    \"page_index\": 1,\r\n    \"total_marks\": 10,\r\n    \"marks_obtained\": 2,\r\n    \"attempted_questions_count\": 2,\r\n    \"not_attempted_questions_count\": 8,\r\n    \"wrong_answers_count\": 8,\r\n    \"correct_answers_count\": 2,\r\n    \"total_positive_marks\": 0,\r\n    \"total_negative_marks\": 0,\r\n    \"question_answer\": [\r\n      {\r\n        \"question_id\": \"6765175ba6e7ac48387b1ff3\",\r\n        \"user_answer\": \"B\",\r\n        \"correct_answer\": \"B\",\r\n        \"marks_obtained\": 1\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d1\",\r\n        \"user_answer\": \"D\",\r\n        \"correct_answer\": \"D\",\r\n        \"marks_obtained\": 1\r\n      },\r\n      {\r\n        \"question_id\": \"675fb0f0a6e7ac48387b1430\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"B\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d2\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"A\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"6765175ba6e7ac48387b1ff4\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"C\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"675fb0f0a6e7ac48387b1431\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"C\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"6765175ba6e7ac48387b1ff5\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"D\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"675fb0f0a6e7ac48387b1432\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"D\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d3\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"A\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d4\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"A\",\r\n        \"marks_obtained\": 0\r\n      }\r\n    ],\r\n    \"quiz_number\": 1,\r\n    \"progress_status\": \"Done\",\r\n    \"progress_total_time\": \"00: 00: 12\",\r\n    \"progress_id\": \"\"\r\n  }\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/save-progress",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "save-progress"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get Progress",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/get-progress?quiz_number=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "get-progress"
+              ],
+              "query": [
+                {
+                  "key": "quiz_number",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Result",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"data\": {\r\n    \"total_marks\": 10,\r\n    \"marks_obtained\": 2,\r\n    \"attempted_questions_count\": 2,\r\n    \"not_attempted_questions_count\": 8,\r\n    \"wrong_answers_count\": 8,\r\n    \"correct_answers_count\": 2,\r\n    \"total_positive_marks\": 0,\r\n    \"total_negative_marks\": 0,\r\n    \"question_answer\": [\r\n      {\r\n        \"question_id\": \"6765175ba6e7ac48387b1ff3\",\r\n        \"user_answer\": \"B\",\r\n        \"correct_answer\": \"B\",\r\n        \"marks_obtained\": 1\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d1\",\r\n        \"user_answer\": \"D\",\r\n        \"correct_answer\": \"D\",\r\n        \"marks_obtained\": 1\r\n      },\r\n      {\r\n        \"question_id\": \"675fb0f0a6e7ac48387b1430\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"B\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d2\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"A\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"6765175ba6e7ac48387b1ff4\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"C\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"675fb0f0a6e7ac48387b1431\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"C\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"6765175ba6e7ac48387b1ff5\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"D\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"675fb0f0a6e7ac48387b1432\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"D\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d3\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"A\",\r\n        \"marks_obtained\": 0\r\n      },\r\n      {\r\n        \"question_id\": \"66bb387b24f31074ec3dc4d4\",\r\n        \"user_answer\": \"F\",\r\n        \"correct_answer\": \"A\",\r\n        \"marks_obtained\": 0\r\n      }\r\n    ],\r\n    \"quiz_number\": 1,\r\n    \"progress_total_time\": \"00:00:12\",\r\n    \"page\": \"1\"\r\n  }\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/generate-result",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "generate-result"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n     \"email\": \"pmpmocktest@yopmail.com\",\r\n    \"password\": \"Test@1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"test\",\r\n    \"email\": \"development0264@gmail.com\",\r\n    \"password\": \"111111\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resend Verification Mail",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"pmpmocktest@yopmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/resend-verification-email",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "resend-verification-email"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Social Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"development0261@gmail.com\",\"name\":\"Test User1\",\"provider\":\"apple\", \"AppleUserId\" :\"001271.38c7dd3423f2470cb6b284c7f7acd191.0646\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/social-login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "social-login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": \"6699ff58da72b7c7f5aa7aff\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://143.0.0.104:3001/api/user/delete",
+              "protocol": "http",
+              "host": [
+                "143",
+                "0",
+                "0",
+                "104"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "user",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"currunt_password\" : \"1111\",\r\n   \"new_password\" : \"111111\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/change-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "change-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"pmptest1@yopmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/reset-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reset-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password By Email",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"mocktest8@gmail.com\",\r\n    \"password\": \"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/reset-password-by-email",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "reset-password-by-email"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "get Profile Info",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Photo",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "profile_image",
+                  "type": "file",
+                  "src": "postman-cloud:///1eed6d27-3528-4c50-89f7-9a7e04a68632"
+                },
+                {
+                  "key": "id",
+                  "value": "67fd0c79258420d7f689142c",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/upload-image",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "upload-image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Photo",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\" : \"67b841756fd07ab1216b09fe\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/remove-image",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "remove-image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Account Type",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": \"684133de32c05748d6d0e1b6\",\r\n    \"account_type\": \"premium\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/udpate-account-type",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "udpate-account-type"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change name",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"pm\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/update-name",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "update-name"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Avatar",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "profile_image",
+                  "type": "file",
+                  "uuid": "d721315f-a64a-4176-88a9-aba62ab52f2d",
+                  "src": "postman-cloud:///1eed7996-e0ed-4ce0-92ed-c0f9d67e8600"
+                },
+                {
+                  "key": "id",
+                  "value": "691c1bd8c31e1d0b8a4c3c53",
+                  "type": "text",
+                  "uuid": "0a52ce3c-2c52-4a8b-af3b-3279434cead3"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/upload-image",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "upload-image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Specific Image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": \"691c1bd8c31e1d0b8a4c3c53\",\r\n  \"image_url\": \"https://pmpep.s3.amazonaws.com/profile_691c1bd8c31e1d0b8a4c3c53_1776406676408_image_cropper_1776406674909.jpg\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/delete-image",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "delete-image"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Contact Us",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"description\" : \"Test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/contact-us",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "contact-us"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Purchased Plans",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/payment/my-plans",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payment",
+            "my-plans"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "mb_token",
+      "value": ""
+    }
+  ]
+}
